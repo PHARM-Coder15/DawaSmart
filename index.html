@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>DawaSmart | Your Ultimate Study Companion</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google AdSense placeholder (replace with your code) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <style>
+        /* Loading overlay – full screen */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0b2b4f 0%, #1a4b7a 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loading-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 1.5s infinite;
+        }
+        .loading-sub {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            border-top: 2px solid #ffc107;
+            padding-top: 0.5rem;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid #ffc107;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 1.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Main content initially hidden */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .main-content.visible {
+            opacity: 1;
+        }
+
+        /* Advanced Footer Styles */
+        .advanced-footer {
+            background: #0b2b4f;
+            color: #f0f0f0;
+            padding: 3rem 5% 1rem;
+            margin-top: 3rem;
+            font-size: 0.95rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h3 {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: #ffc107;
+        }
+        .footer-col p {
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-col ul li {
+            margin-bottom: 0.6rem;
+        }
+        .footer-col ul li a {
+            color: #f0f0f0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: #ffc107;
+            padding-left: 5px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .contact-item i {
+            width: 20px;
+            color: #ffc107;
+            font-size: 1.1rem;
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        .social-links a:hover {
+            background: #ffc107;
+            color: #0b2b4f;
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+        .footer-bottom-links a {
+            color: #f0f0f0;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+        .footer-bottom-links a:hover {
+            color: #ffc107;
+        }
+        @media (max-width: 768px) {
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-bottom-links a {
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+
+
+
+
+<body>
+    <!-- Loading overlay hapa ni sehemu ya mwanzo kabisa website inapoanza kufunguka -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-text">PHARM EXPERTIES GROUP</div>
+        <div class="loading-sub">Empowering Future of Pharm Technician</div>
+        <div class="spinner"></div>
+    </div>
+
+
+
+
+    <!-- Main content wrapper hii ndo Menu yetu -->
+    <div class="main-content" id="mainContent">
+        <header>
+            <div class="logo">Dawa<span>Smart</span></div>
+            <nav class="navbar">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="pharmacology.html">Pharmacology</a></li>
+                    <li><a href="calculations.html">Calculations</a></li>
+                    <li><a href="law-ethics.html">Law & Ethics</a></li>
+                    <li><a href="study-field.html">Study Field</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                </div>
+            </nav>
+        </header>
+        
+
+
+        <main>
+            <section class="hero">
+                <h1>Master Pharmacy Technician Exams with Confidence</h1>
+                <p>Curated notes, calculations, law, and ethics , all in one place. No distractions, pure focus.</p>
+                <a href="#modules" class="cta-btn">Explore </a>
+            </section>
+
+            <section id="modules" class="modules-grid">
+                <div class="module-card" onclick="location.href='pharmacology.html';">
+                    <h2>🧬 Pharmacology</h2>
+                    <p>Rational Use ,Drug actions, interactions, side effects, and STG , NEML are simplified.</p>
+                </div>
+                <div class="module-card" onclick="location.href='calculations.html';">
+                    <h2>🧮 Calculations</h2>
+                    <p>Dosage, compounding, IV rates, dilutions , QA ,Production step by step solved problems.</p>
+                </div>
+                <div class="module-card" onclick="location.href='law-ethics.html';">
+                    <h2>⚖️ Law & Ethics</h2>
+                    <p>Pharmacy Act, regulations, code of conduct, and professional responsibilities.</p>
+                </div>
+                <div class="module-card" onclick="location.href='study-field.html';">
+                    <h2>📚 Study Field</h2>
+                    <p>community cases, dispensing tips, and Brand Medicine knowledge.</p>
+                </div>
+            </section>
+
+
+            <!-- Ad space hapa ni kwaajili ya google Adsense 
+            <div class="ad-banner">
+                <p>Advertisement</p>
+            </div>
+                    -->
+            
+        </main>
+
+
+        <!-- Advanced Footer -->
+        <footer class="advanced-footer">
+            <div class="footer-grid">
+                <!-- About Column -->
+                <div class="footer-col">
+                    <h3>DawaSmart</h3>
+                    <p>Your trusted companion for pharmacy professional exams. We provide curated notes, calculations, law, and practical scenarios to help you succeed.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/people/Pharmacy-council-Tanzania/61560595871849/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/Pharm_council:"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#https://wa.me/255622059782"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://yout.be/no_PFXgb9z4"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="https://www.pc.go.tz/"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 0.5rem;"></i>Pharmacy Council-(PC)</a></li>
+                        <li><a href="https://www.moh.go.tz/"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 0.5rem;"></i>Ministry of Health-(MOH)</a></li>
+                        <li><a href="https://www.who.int/"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 0.5rem;"></i>World Health Organization-(WHO)</a></li>
+                        <li><a href="https://www.tmda.go.tz/"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 0.5rem;"></i>TMDA</a></li>
+                        <li><a href="https://www.nacte.go.tz/"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 0.5rem;"></i>NACTIVET</a></li>
+                        <li><a href="https://www.tcu.go.tz/"><i class="fas fa-chevron-right" style="font-size: 0.7rem; margin-right: 0.5rem;"></i>TCU</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Mwanza, Tanzania</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+255 622 059 782</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>pharmexpertgroup123@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-globe"></i>
+                        <span>www.dawa smart.com</span>
+                    </div>
+                </div>
+                <!-- Support/Newsletter -->
+                <div class="footer-col">
+                    <h3>Stay Updated</h3>
+                    <p>Subscribe to our newsletter for the latest updates and study tips.</p>
+                    <form style="display: flex; margin-top: 1rem;">
+                        <input type="email" placeholder="Your email" style="flex: 1; padding: 0.6rem; border: none; border-radius: 4px 0 0 4px;">
+                        <button style="background: #ffc107; color: #0b2b4f; border: none; padding: 0 1rem; border-radius: 0 4px 4px 0; font-weight: bold; cursor: pointer;">Go</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Bottom Bar -->
+            <div class="footer-bottom">
+                <div>&copy; 2026 PharmExpertiesGroup. All rights reserved. Created by AMOS KALELEMBA.</div>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="sitemap.html">Sitemap</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Show loading overlay for at least 2 seconds, then fade to main content
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('visible');
+            }, 2000); // Adjust time as needed
+        });
+
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                document.getElementById('loadingOverlay').classList.remove('hidden');
+                document.getElementById('mainContent').classList.remove('visible');
+                setTimeout(function() {
+                    document.getElementById('loadingOverlay').classList.add('hidden');
+                    document.getElementById('mainContent').classList.add('visible');
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
