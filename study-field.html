@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>DawaSmart-field Virtual Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+        body { background: #f0f4f8; font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; line-height: 1.5; }
+
+        /* Header & Navbar (matching original study-field.html) */
+        header {
+            background: #0b2b4f;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .logo { font-size: 1.8rem; font-weight: 700; letter-spacing: 1px; }
+        .logo span { color: #ffc107; }
+        .navbar ul { display: flex; list-style: none; }
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+        .navbar ul li a:hover, .navbar ul li a.active { background: #ffc107; color: #0b2b4f; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; }
+        .hamburger .bar { width: 25px; height: 3px; background: white; margin: 3px 0; }
+
+        /* Main content */
+        .content-page { max-width: 1400px; margin: 0 auto; padding: 2rem 5%; }
+        h1 { color: #0b2b4f; border-bottom: 3px solid #ffc107; padding-bottom: 0.5rem; margin-bottom: 1.5rem; font-size: 1.8rem; }
+        .page-description { font-style: italic; margin-bottom: 2rem; color: #555; }
+
+        /* Internal clinical tabs */
+        .clinical-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: white;
+            border-radius: 12px;
+            padding: 0.3rem;
+            margin-bottom: 2rem;
+            gap: 0.3rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .clinical-tab {
+            background: none;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: 0.2s;
+            color: #2c3e50;
+        }
+        .clinical-tab.active { background: #ffc107; color: #0b2b4f; }
+        .clinical-section { display: none; animation: fade 0.3s; }
+        .clinical-section.active-section { display: block; }
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Card styling */
+        .card {
+            background: white;
+            border-radius: 24px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .card-header {
+            background: #0b2b4f;
+            color: white;
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .card-header i { color: #ffc107; font-size: 1.5rem; }
+        .card-body { padding: 1.8rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+        .info-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 1.2rem;
+            border-left: 5px solid #ffc107;
+            margin-bottom: 1rem;
+        }
+        .info-card h3 { color: #0b2b4f; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+        .step-list { list-style: none; padding-left: 0; }
+        .step-list li { margin-bottom: 0.8rem; display: flex; gap: 0.8rem; align-items: baseline; }
+        .step-list li i { color: #ffc107; width: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { border: 1px solid #dee2e6; padding: 0.7rem; text-align: left; vertical-align: top; }
+        th { background: #eef2f7; }
+        .warning { background: #fff3cd; border-left: 5px solid #ffc107; padding: 1rem; border-radius: 16px; margin: 1rem 0; }
+        .badge { background: #ffc107; color: #0b2b4f; padding: 0.2rem 0.7rem; border-radius: 50px; font-size: 0.7rem; font-weight: bold; display: inline-block; margin-right: 0.5rem; }
+        .media-placeholder {
+            background: #e9ecef;
+            border-radius: 12px;
+            padding: 0.8rem;
+            text-align: center;
+            margin: 1rem 0;
+            border: 1px dashed #adb5bd;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .media-placeholder img { max-width: 100%; border-radius: 8px; margin-bottom: 0.5rem; }
+        .footer {
+            background: #0b2b4f;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+        }
+        .footer a { color: #ffc107; text-decoration: none; }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .navbar ul { position: fixed; left: -100%; top: 70px; flex-direction: column; background: #0b2b4f; width: 100%; text-align: center; transition: 0.3s; padding: 1rem 0; z-index: 99; }
+            .navbar ul.active { left: 0; }
+            .navbar ul li { margin: 1rem 0; }
+            .clinical-tab { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Dawa<span>Smart</span></div>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="pharmacology.html">Pharmacology</a></li>
+                <li><a href="calculations.html">Calculations</a></li>
+                <li><a href="law-ethics.html">Law & Ethics</a></li>
+                <li><a href="study-field.html" class="active">Study Field</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="terms.html">Terms</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content-page">
+        <h1>📚 FIELD VISUAL EXPERIENCE</h1>
+        <p class="page-description">Evidence-based guide for healthcare professionals with detailed pathophysiology, step by step management, and visual references.</p>
+
+        <div class="clinical-tabs" id="clinicalTabs">
+            <button class="clinical-tab active" data-clinical="ophth">👁️ Ophthalmology</button>
+            <button class="clinical-tab" data-clinical="derma">🩺 Dermatology</button>
+            <button class="clinical-tab" data-clinical="dental">🦷 Dental</button>
+            <button class="clinical-tab" data-clinical="stis">🦠 STI Syndromic</button>
+            <button class="clinical-tab" data-clinical="wounds">🩹Minor Wounds</button>
+            <button class="clinical-tab" data-clinical="procedures">💉 Injections</button>
+            <button class="clinical-tab" data-clinical="devices">📟 Devices</button>
+            <button class="clinical-tab" data-clinical="labs">🧪 Laboratory</button>
+            <button class="clinical-tab" data-clinical="cases">📋 Clinical Cases</button>
+        </div>
+
+        <!-- ========== OPHTHALMOLOGY SECTION ========== -->
+        <div class="clinical-section active-section" id="ophth">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-eye"></i> Ophthalmology </div>
+
+                <div class="card-body">
+                    <div class="grid-2">
+                        <div class="info-card"><h3><i class="fas fa-nose"></i> ABNAL (Sodium Chloride Nasal Solution 0.9%)</h3><p><strong>Case:</strong> “Pua yangu imejaa sana makamasi mazito zinazobana nashindwa kupumua, hasa wakati wa baridi au vumbi. Sina homa kali wala maumivu makali.”<br><strong>Evidence:</strong> Saline nasal drops-safe for infants, cleanses, moisturises, and improves mucociliary clearance. Use before topical decongestants.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Saline+Nasal+Spray" alt="Saline nasal spray"><div>Replace with actual product image</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-nose"></i> ISORYN (Oxymetazoline)</h3><p><strong>Case:</strong> “Pua imeziba kabisa, napumua shida usiku.”<br><strong>Evidence:</strong> Topical decongestant – ≤5 days to avoid rhinitis medicamentosa. Not for children less than6 years.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Nasal+Decongestant" alt="Decongestant"><div>Video: Correct nasal spray technique</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-eye"></i> DEXACHLOR (Dexamethasone + Chloramphenicol)</h3><p><strong>Case:</strong> “Jicho linauma, limevimba, usaha manjano.”<br><strong>Evidence:</strong> Bacterial conjunctivitis with inflammation. Contraindicated in viral/fungal keratitis or suspected corneal ulcer.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Bacterial+Conjunctivitis" alt="Conjunctivitis"><div>Purulent discharge</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-eye"></i> Ciprofloxacin 0.3%</h3><p><strong>Case:</strong> “Jicho linauma sana, naona kitu ndani.”<br><strong>Evidence:</strong> For severe bacterial keratitis, corneal ulcers. Reserve for documented fluoroquinolone‑sensitive infections.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Corneal+Ulcer" alt="Corneal ulcer"><div>Slit‑lamp image</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-ear-listen"></i> L-Genta (Gentamicin)</h3><p><strong>Case:</strong> “Sikio linauma na linatoa usaha.”<br><strong>Evidence:</strong> Uncomplicated otitis externa or bacterial conjunctivitis. Avoid in perforated eardrum.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Otitis+Externa" alt="Otitis externa"><div>Otoscopy view</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-eye"></i> Prednisolone Acetate 1%</h3><p><strong>Case:</strong> “Jicho linauma bila usaha, mwanga unaniumiza.”<br><strong>Evidence:</strong> Uveitis, allergic conjunctivitis. Never use alone if infection present – combine with antibiotic if bacterial.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Anterior+Uveitis" alt="Uveitis"><div>Cells and flare</div></div></div>
+                    
+<!--Virus Infection-->
+
+<div class="info-card"><h3><i class="fas fa-nose"></i> ABNAL (Sodium Chloride 0.9%)</h3><p><strong>Case:</strong> “Pua imejaa makamasi mazito, baridi au vumbi.”<br><strong>Evidence:</strong> Saline nasal drops – safe for infants, cleanses, moisturises, and improves mucociliary clearance. Use before topical decongestants.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Saline+Nasal+Spray" alt="Saline nasal spray"><div>Replace with actual product image</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-nose"></i> ISORYN (Oxymetazoline)</h3><p><strong>Case:</strong> “Pua imeziba kabisa, napumua shida usiku.”<br><strong>Evidence:</strong> Topical decongestant – ≤5 days to avoid rhinitis medicamentosa. Not for children less than  6 years. </p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Nasal+Decongestant" alt="Decongestant"><div>Video: Correct nasal spray technique</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-eye"></i> DEXACHLOR (Dexamethasone + Chloramphenicol)</h3><p><strong>Case:</strong> “Jicho linauma, limevimba, usaha manjano.”<br><strong>Evidence:</strong> Bacterial conjunctivitis with inflammation. Contraindicated in viral/fungal keratitis or suspected corneal ulcer.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Bacterial+Conjunctivitis" alt="Conjunctivitis"><div>Purulent discharge</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-eye"></i> Ciprofloxacin 0.3%</h3><p><strong>Case:</strong> “Jicho linauma sana, naona kitu ndani.”<br><strong>Evidence:</strong> For severe bacterial keratitis, corneal ulcers. Reserve for documented fluoroquinolone‑sensitive infections.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Corneal+Ulcer" alt="Corneal ulcer"><div>Slit‑lamp image</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-ear-listen"></i> L-Genta (Gentamicin)</h3><p><strong>Case:</strong> “Sikio linauma na linatoa usaha.”<br><strong>Evidence:</strong> Uncomplicated otitis externa or bacterial conjunctivitis. Avoid in perforated eardrum.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Otitis+Externa" alt="Otitis externa"><div>Otoscopy view</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-eye"></i> Prednisolone Acetate 1%</h3><p><strong>Case:</strong> “Jicho linauma bila usaha, mwanga unaniumiza.”<br><strong>Evidence:</strong> Uveitis, allergic conjunctivitis. Never use alone if infection present – combine with antibiotic if bacterial.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Anterior+Uveitis" alt="Uveitis"><div>Cells and flare</div></div></div>
+                    
+
+
+
+                    </div>
+                    <div class="warning"><i class="fas fa-exclamation-triangle"></i> <strong>Critical points:</strong> Never dispense steroid‑only drops if bacterial infection suspected. Refer if vision reduced, severe pain, or corneal opacity. Corneal ulcer requires urgent ophthalmology review.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><i class="fas fa-chart-line"></i> Red Eye Management Algorithm (WHO‑based)</div>
+                <div class="card-body">
+                    <ul class="step-list">
+                        <li><i class="fas fa-eye"></i> <strong>Purulent discharge + sticky lids</strong> → Bacterial conjunctivitis → Topical chloramphenicol / gentamicin q2‑4h ×5‑7d.</li>
+                        <li><i class="fas fa-eye"></i> <strong>Itching + watery discharge + bilateral</strong> → Allergic conjunctivitis → Antihistamine drops (olopatadine) + cold compresses.</li>
+                        <li><i class="fas fa-eye"></i> <strong>Pain + photophobia + no discharge</strong> → Anterior uveitis / keratitis → Urgent ophthalmology referral; topical steroids only after specialist.</li>
+                        <li><i class="fas fa-eye"></i> <strong>Foreign body sensation + tearing</strong> → Corneal abrasion → Fluorescein stain, topical antibiotic, patch if small; refer if large or infected.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== DERMATOLOGY ========== -->
+        <div class="clinical-section" id="derma">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-allergies"></i> Common Skin Conditions – Pathophysiology & Management</div>
+                <div class="card-body">
+                    <div class="grid-2">
+                        <div class="info-card"><h3><i class="fas fa-bug"></i> Acne Vulgaris</h3><p><strong>Pathophysiology:</strong> Follicular hyperkeratinisation, seborrhoea, Cutibacterium acnes, inflammation.<br><strong>Mild:</strong> Benzoyl peroxide 2.5‑5% or topical adapalene. <strong>Moderate:</strong> Add topical clindamycin. <strong>Severe:</strong> Oral doxycycline 100mg bd + topical combination. Counsel: avoid picking, use non‑comedogenic products, expect 6‑8 weeks for improvement.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Acne+Grading" alt="Acne grading"><div>Leeds scale</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-hand-holding-heart"></i> Atopic Eczema</h3><p><strong>Pathophysiology:</strong> Skin barrier defect, immune dysregulation, environmental triggers.<br><strong>Management ladder:</strong> Emollients (250‑500g/week) → mild topical corticosteroids (hydrocortisone) for face/folds → moderate (betamethasone valerate) for trunk/limbs. Antihistamines for itch. Avoid irritants.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Eczema+Emollients" alt="Eczema"><div>Video: Emollient application</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-virus"></i> Herpes Zoster (Shingles)</h3><p><strong>Pathophysiology:</strong> Reactivation of varicella‑zoster virus in dorsal root ganglia.<br><strong>Treatment:</strong> Oral acyclovir 800mg 5x/day ×7 days (within 72h). Analgesics (paracetamol, NSAIDs). Eye involvement (nasociliary sign) → emergency ophthalmology.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Herpes+Zoster+Rash" alt="Shingles rash"><div>Dermatomal distribution</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-poop"></i> Fungal Infections (Tinea)</h3><p><strong>Types:</strong> Tinea corporis, cruris, pedis, capitis.<br><strong>Treatment:</strong> Topical terbinafine 1% cream bd ×1‑2 weeks. Extensive or nail involvement: oral terbinafine 250mg od ×6‑12 weeks. Keep affected area dry, wash bedding.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x200?text=Tinea+Corporis" alt="Tinea"><div>Ringworm appearance</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== DENTAL ========== -->
+        <div class="clinical-section" id="dental">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-tooth"></i> Dental Conditions – Emergency Management & Referral Criteria</div>
+                <div class="card-body">
+                    <table>
+                        <tr><th>Condition</th><th>Presentation</th><th>Management</th><th>Referral Criteria</th></tr>
+                        <tr><td>Pulpitis</td><td>Spontaneous pain, thermal sensitivity</td><td>Ibuprofen, avoid hot/cold; temporary filling if exposed</td><td>Root canal within 48h</td></tr>
+                        <tr><td>Dental abscess</td><td>Localised swelling, pus, fever</td><td>Amoxicillin 500mg tds + metronidazole 400mg tds ×5‑7d; warm saline rinse</td><td>If swelling extends to eye/neck, trismus, or systemic symptoms</td></tr>
+                        <tr><td>Dry socket</td><td>Post‑extraction pain, empty socket, bad taste</td><td>Saline irrigation, eugenol dressing (by dentist), analgesics</td><td>Re‑packing required</td>表示
+                        <tr><td>Oral thrush</td><td>White plaques, burning</td><td>Nystatin suspension 100,000 IU 4x daily</td><td>Immunocompromised, systemic symptoms</td></tr>
+                    </table>
+                    <div class="media-placeholder"><img src="https://via.placeholder.com/600x200?text=Dental+Abscess" alt="Dental abscess"><div>Facial swelling due to odontogenic infection</div></div>
+                    <div class="warning">⚠️ Ludwig’s angina (bilateral submandibular swelling, dysphagia, drooling) – medical emergency. Immediate IV antibiotics and airway assessment.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== STI SYNDROMIC MANAGEMENT ========== -->
+        <div class="clinical-section" id="stis">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-virus"></i> STI Syndromic Approach (Tanzania National Guidelines)</div>
+                <div class="card-body">
+                    <div class="grid-2">
+                        <div class="info-card"><h3>Urethral Discharge</h3><p><strong>Likely pathogens:</strong> Neisseria gonorrhoeae, Chlamydia trachomatis.<br><strong>Treatment:</strong> Ceftriaxone 250mg IM + Azithromycin 1g PO (directly observed). Partner management essential. Test for HIV, syphilis.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x150?text=Urethral+Discharge" alt="Urethral discharge"></div></div>
+                        <div class="info-card"><h3>Vaginal Discharge</h3><p><strong>Trichomoniasis:</strong> Metronidazole 2g stat.<br><strong>BV:</strong> Metronidazole 400mg bd ×7d.<br><strong>Candidiasis:</strong> Clotrimazole 500mg pessary + topical cream. Advise to avoid douching.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x150?text=Vaginal+Discharge" alt="Vaginal discharge"></div></div>
+                        <div class="info-card"><h3>Genital Ulcer</h3><p><strong>Common:</strong> Herpes simplex, syphilis, chancroid.<br><strong>Treatment:</strong> Benzathine penicillin 2.4MU IM (syphilis) + acyclovir 400mg tds ×7d (herpes). RPR/VDRL, HIV testing.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x150?text=Genital+Ulcer" alt="Genital ulcer"></div></div>
+                        <div class="info-card"><h3>Pelvic Inflammatory Disease (PID)</h3><p><strong>Outpatient regimen:</strong> Doxycycline 100mg bd ×14d + metronidazole 400mg bd ×14d + ceftriaxone 250mg IM stat.<br>Hospitalise if pregnancy, severe pain, or failed outpatient therapy.</p></div>
+                    </div>
+                    <div class="warning"><i class="fas fa-condom"></i> <strong>Prevention & Counselling:</strong> Always offer HIV testing, condoms, and partner notification. Treat partners to prevent reinfection.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== WOUNDS ========== -->
+        <div class="clinical-section" id="wounds">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-band-aid"></i> Minor Wound Management – Step‑by‑Step Evidence‑Based Protocol</div>
+                <div class="card-body">
+                    <ol class="step-list">
+                        <li><i class="fas fa-notes-medical"></i> <strong>Assessment:</strong> Mechanism, size, depth, foreign body, neurovascular status, tetanus immunization history.</li>
+                        <li><i class="fas fa-tint"></i> <strong>Hemostasis:</strong> Direct pressure with sterile gauze for 5‑10 minutes.</li>
+                        <li><i class="fas fa-water"></i> <strong>Cleaning:</strong> Irrigation with normal saline or potable water under pressure (10‑20mL/cm). Remove visible debris.</li>
+                        <li><i class="fas fa-cut"></i> <strong>Debridement:</strong> Remove devitalised tissue with scalpel or scissors (if trained).</li>
+                        <li><i class="fas fa-medkit"></i> <strong>Antibiotics:</strong> Topical antiseptic (povidone‑iodine) only for contaminated wounds. Systemic antibiotics if high risk (diabetic, bite wounds, deep puncture).</li>
+                        <li><i class="fas fa-bandaid"></i> <strong>Dressing:</strong> Non‑adherent dressing, change daily or when soiled.</li>
+                        <li><i class="fas fa-syringe"></i> <strong>Tetanus Prophylaxis:</strong> If dirty wound and greater than 5 years since last booster → Td vaccine; if unknown or greater than10 years → Td + immunoglobulin.</li>
+                    </ol>
+                    <div class="media-placeholder"><img src="https://via.placeholder.com/600x200?text=Wound+Debridement" alt="Wound debridement"><div>Video: Proper wound irrigation</div></div>
+                    <div class="warning">Bite wounds: high risk of infection; consider amoxicillin‑clavulanate prophylaxis; rabies risk assessment.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== INJECTIONS & CANNULATION ========== -->
+        <div class="clinical-section" id="procedures">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-syringe"></i> Venepuncture, Cannulation & Injection Techniques – Standard of Care</div>
+                <div class="card-body">
+                    <div class="grid-2">
+                        <div class="info-card"><h3>IV Cannulation</h3><ul><li>Select vein (forearm, hand, avoid valves).</li><li>Apply tourniquet, palpate.</li><li>Clean with chlorhexidine 70% alcohol, allow to dry.</li><li>Insert bevel up at 15‑30°, observe flashback, advance catheter, retract needle, secure.</li><li>Flush with 5‑10mL normal saline.</li></ul><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=IV+Cannulation" alt="IV cannulation"><div>Video: Step‑by‑step</div></div></div>
+                        <div class="info-card"><h3>Intramuscular (IM) Injection</h3><p>Sites: deltoid (adults), vastus lateralis (infants). Needle: 21‑23G, 1‑1.5 inch. Technique: stretch skin (Z‑track for irritant drugs), insert at 90°, aspirate, inject slowly.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=IM+Injection+Sites" alt="IM sites"></div></div>
+                        <div class="info-card"><h3>Intradermal (ID) Injection</h3><p>Angle 10‑15°, bevel up, inject 0.1mL to form bleb (tuberculin test, allergy testing).</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=Intradermal+Injection" alt="ID injection"></div></div>
+                        <div class="info-card"><h3>Subcutaneous (SC) Injection</h3><p>Pinch skin, insert 45°, no aspiration (insulin, heparin). Rotate sites to avoid lipohypertrophy.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== MEDICAL DEVICES ========== -->
+        <div class="clinical-section" id="devices">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-microscope"></i> Medical Devices – Correct Use & Maintenance</div>
+                <div class="card-body">
+                    <div class="grid-2">
+                        <div class="info-card"><h3><i class="fas fa-lungs"></i> Metered‑Dose Inhaler (MDI)</h3><p>Steps: Shake, exhale, place mouthpiece, actuate during slow inhalation, hold breath 10 sec. Use spacer for children/elderly. Clean mouthpiece weekly.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=MDI+Spacer" alt="MDI spacer"><div>Video: Correct technique</div></div></div>
+                        <div class="info-card"><h3><i class="fas fa-tachometer-alt"></i> Blood Pressure Monitor</h3><p>Correct cuff size (arm circumference), rest 5 min, arm at heart level, no talking, measure twice. Record both systolic and diastolic.</p></div>
+                        <div class="info-card"><h3><i class="fas fa-tint"></i> Glucometer</h3><p>Clean finger, first drop wipe, apply blood to strip, read. Store strips in cool, dry place; check expiry.</p></div>
+                        <div class="info-card"><h3><i class="fas fa-wind"></i> Nebulizer</h3><p>Assemble, add prescribed solution, attach mask/mouthpiece, run until mist stops, clean after each use.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== LAB & PRESCRIPTION ========== -->
+        <div class="clinical-section" id="labs">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-flask"></i> Interpreting Laboratory Results & Prescription Safety</div>
+                <div class="card-body">
+                     <table>
+                        <tr><th>Test</th><th>Normal Range</th><th>Clinical Implication & Drug Adjustments</th></tr>
+                        <tr><td>Creatinine</td><td>0.6‑1.2 mg/dL</td><td>Elevated → dose adjust renally cleared drugs (e.g., metformin, aminoglycosides, vancomycin).</td></tr>
+                        <tr><td>ALT/AST</td><td>Less than 40 IU/L</td><td>Elevation → avoid hepatotoxic drugs (paracetamol greater than 2g/day in risk, NSAIDs, anti‑TB drugs).</td></tr>
+                        <tr><td>WBC / Neutrophils</td><td>4‑11 x10³/μL</td><td>↑ Neutrophils → bacterial infection; ↑ Lymphocytes → viral; ↓ WBC → avoid live vaccines, consider dose reduction of myelosuppressive drugs.</td></tr>
+                        <tr><td>HbA1c</td><td>less than 5.7% </td><td>less than 6.5% diabetes; goal should less than 7% for most; adjust metformin, sulfonylureas, insulin.</td></tr>
+                        <tr><td>INR</td><td>0.8‑1.2</td><td>Target 2‑3 for warfarin; check interactions (amiodarone, antibiotics, vitamin K).</td></tr>
+                    </table>
+                    <div class="warning"><i class="fas fa-prescription-bottle"></i> <strong>Prescription red flags:</strong> high‑risk combinations (ACEI + spironolactone + potassium supplements), QT prolonging drugs, duplicate therapy, contraindications (e.g., metformin + contrast media). Always check for drug‑drug interactions.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CLINICAL CASES ========== -->
+        <div class="clinical-section" id="cases">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-stethoscope"></i> Integrated Clinical Cases (with Visual References)</div>
+                <div class="card-body">
+                    <div class="info-card"><h3>Case 1: 8‑year‑old with itchy, scaly scalp, hair loss</h3><p><strong>Likely:</strong> Tinea capitis. <strong>Diagnosis:</strong> KOH microscopy, Wood’s lamp. <strong>Treatment:</strong> Oral terbinafine (weight‑based: 10kg = 125mg/day) + selenium sulfide shampoo twice weekly. Educate on avoiding sharing combs, hats.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=Tinea+Capitis" alt="Tinea capitis"><div>Scalp fungal infection</div></div></div>
+                    <div class="info-card"><h3>Case 2: 32‑year‑old male, painful urination, purulent urethral discharge</h3><p><strong>Syndrome:</strong> Urethral discharge. <strong>Management:</strong> Ceftriaxone 250mg IM + azithromycin 1g PO. Test for HIV, syphilis. Advise partner treatment and abstinence until cured.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=Urethral+Discharge" alt="Urethral discharge"></div></div>
+                    <div class="info-card"><h3>Case 3: 45‑year‑old diabetic with non‑healing foot ulcer, erythema, purulence</h3><p><strong>Assessment:</strong> Infected diabetic foot ulcer. <strong>Treatment:</strong> Debridement, wound culture, empiric amoxicillin‑clavulanate or clindamycin + ciprofloxacin. Offloading, tight glycaemic control, refer to podiatry. Monitor for osteomyelitis.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=Diabetic+Foot+Ulcer" alt="Diabetic foot"><div>Wagner classification</div></div></div>
+                    <div class="info-card"><h3>Case 4: 60‑year‑old, sudden vision loss in one eye, painless, “curtain” over vision</h3><p><strong>Emergency:</strong> Retinal artery occlusion / retinal detachment. Immediate ophthalmology referral. Do not delay – time‑sensitive for salvage of vision.</p><div class="media-placeholder"><img src="https://via.placeholder.com/400x180?text=Retinal+Detachment" alt="Retinal detachment"><div>Fundus photo</div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner" style="background:#e9ecef; text-align:center; padding:1rem; border-radius:12px; margin:2rem 0;">Advertisement</div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 PharmExpertiesGroup. Created by Amos Kalelemba. | <a href="terms.html">Terms</a> | <a href="about.html">About</a></p>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // Clinical tabs
+        const clinicalTabs = document.querySelectorAll('.clinical-tab');
+        const clinicalSections = document.querySelectorAll('.clinical-section');
+        clinicalTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.clinical;
+                clinicalSections.forEach(sec => sec.classList.remove('active-section'));
+                document.getElementById(target).classList.add('active-section');
+                clinicalTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Anti‑copy
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'c')) || (e.metaKey && (e.key === 'p' || e.key === 's' || e.key === 'c'))) {
+                e.preventDefault();
+                alert('Printing, saving, or copying is restricted.');
+            }
+        });
+        document.addEventListener('keyup', e => { if (e.key === 'PrintScreen') alert('Screenshots are not allowed.'); });
+        document.addEventListener('copy', e => { e.preventDefault(); alert('Copying disabled.'); });
+        window.addEventListener('beforeprint', e => { e.preventDefault(); alert('Printing disabled.'); });
+        document.body.style.userSelect = 'none';
+    </script>
+</body>
+</html>

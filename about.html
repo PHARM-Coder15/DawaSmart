@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>DawaSmart  -About Us</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google AdSense placeholder -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <style>
+        /* About page specific styling - refined */
+        .about-hero {
+            background: linear-gradient(135deg, #0b2b4f 0%, #1a4b7a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .about-hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #ffc107;
+        }
+        .about-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+        .mission-vision {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .mission-card, .vision-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-5px);
+        }
+        .mission-card h3, .vision-card h3 {
+            color: #0b2b4f;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #ffc107;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .creator-profile {
+            background: #f8f9fc;
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border: 1px solid #e9ecef;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #ffc107;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-name h3 {
+            font-size: 2rem;
+            color: #0b2b4f;
+            margin-bottom: 0.3rem;
+        }
+        .profile-name p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        .achievement-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .badge {
+            background: #ffc107;
+            color: #0b2b4f;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .story-text {
+            line-height: 1.8;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        .cta-section {
+            background: #0b2b4f;
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        .cta-section h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #ffc107;
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cta-btn-primary, .cta-btn-secondary {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        .cta-btn-primary {
+            background: #ffc107;
+            color: #0b2b4f;
+        }
+        .cta-btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .cta-btn-primary:hover, .cta-btn-secondary:hover {
+            transform: scale(1.05);
+        }
+        @media (max-width: 768px) {
+            .mission-vision {
+                grid-template-columns: 1fr;
+            }
+            .profile-header {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Dawa<span>Smart</span></div>
+        <nav class="navbar">
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="pharmacology.html">Pharmacology</a></li>
+                <li><a href="calculations.html">Calculations</a></li>
+                <li><a href="law-ethics.html">Law & Ethics</a></li>
+                <li><a href="study-field.html">Study Field</a></li>
+                <li><a href="about.html" class="active">About Us</a></li>
+                <li><a href="terms.html">Terms</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content-page">
+        <!-- Hero Section -->
+        <div class="about-hero">
+            <h2>Empowering Pharmacy Students to Succeed</h2>
+            <p>Dawa Smart was born from a simple idea: every student deserves access to quality, organized study materials without barriers.</p>
+        </div>
+
+        <!-- Mission & Vision -->
+        <div class="mission-vision">
+            <div class="mission-card">
+                <h3>🎯 Our Mission</h3>
+                <p style="margin-top: 1rem; line-height: 1.8;">To provide pharmaceutical students with accurate, exam-focused resources that bridge the gap between scattered notes and professional success. We believe in free, accessible education for all.</p>
+            </div>
+            <div class="vision-card">
+                <h3>🌟 Our Vision</h3>
+                <p style="margin-top: 1rem; line-height: 1.8;">To become the most trusted digital companion for pharmacy students across Tanzania and beyond a platform where knowledge meets innovation, and every student can find the tools they need to excel.</p>
+            </div>
+        </div>
+
+
+
+
+        <!-- Creator Profile - Streamlined -->
+        <div class="creator-profile">
+            <div class="profile-header">
+                <div class="profile-avatar">
+
+                    <!-- External image placeholder - replace with your actual photo URL -->
+                    <img src="images\profile.jpg" alt="Amos Kalelemba">
+                </div>
+                <div class="profile-name">
+                    <h3>Amos Kalelemba</h3>
+                    <p>Founder, Pharm Experties Group</p>
+                    <div class="achievement-badges">
+                        <span class="badge">🏆 1 Trophy Awards</span>
+                        <span class="badge">📜 2 Certificates</span>
+                        <span class="badge">💻 Developer</span>
+                        <span class="badge">✍️ Writer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="story-text">
+                <p>As a former pharmacy student at Excellent College, I saw too many talented peers struggle with scattered, unverified study materials. Many faced supplementary exams not because they lacked ability, but because they lacked the right resources.</p>
+                <p>I combined my pharmaceutical training with my passion for technology to build DawaSmart. Every note, every calculation, every law is carefully curated from official sources and presented in a clear, exam-oriented format. My goal is simple: to help you pass your exams and become a licensed professional without the unnecessary stress.</p>
+                <p style="margin-top: 1rem; font-style: italic; color: #0b2b4f;">"I built this for you because I wish I had it when I was studying."</p>
+            </div>
+        </div>
+
+        <!-- Quick Stats (keep it short) -->
+        <div style="display: flex; justify-content: space-around; margin: 2rem 0; flex-wrap: wrap; gap: 1rem;">
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: 700; color: #0b2b4f;">200+</div>
+                <div style="color: #6c757d;">Calculations</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: 700; color: #0b2b4f;">150+</div>
+                <div style="color: #6c757d;">Law and Ethics</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: 700; color: #0b2b4f;">100+</div>
+                <div style="color: #6c757d;">Pharmacology</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: 700; color: #0b2b4f;">80+</div>
+                <div style="color: #6c757d;">Field Experience</div>
+            </div>
+        </div>
+
+
+        <!-- Call to Action Section -->
+        <div class="cta-section">
+            <h3>Ready to Ace Your Exams?</h3>
+            <p>Join thousands of students who are already using DawaSmart to prepare for their professional exams. All for free.</p>
+            <div class="cta-buttons">
+                <a href="pharmacology.html" class="cta-btn-primary">Start Learning</a>
+                <a href="#contact" class="cta-btn-secondary">Contact Me</a>
+            </div>
+        </div>
+
+        <!-- Contact / Support (simple, direct) -->
+        <div id="contact" style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin: 3rem 0; text-align: center;">
+            <h2 style="color: #0b2b4f; margin-bottom: 1.5rem;">Let's Connect</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Have questions, feedback, or just want to say hi? Reach out I'd love to hear from you.</p>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📧</div>
+                    <p><strong>Email</strong><br>pharmexpertgroup123@gmail.com</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📱</div>
+                    <p><strong>WhatsApp</strong><br>+255 622 059 782</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+                    <p><strong>Telegram</strong><br>@amoskalelemba</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad space 
+        <div class="ad-banner">
+            <p>Advertisement</p>
+        </div>
+        -->
+    </main>
+
+    <footer>
+        <p>&copy; 2026 PharmaExpertiesGroup. All rights reserved. | <a href="terms.html">Terms</a> | <a href="about.html">About</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
